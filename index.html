@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Estrategia Juan Somilleda - Mobile Pro</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        :root {
+            --primary-blue: #1e3a8a; 
+            --primary-green: #064e3b; 
+            --primary-slate: #475569; 
+            --accent-amber: #b45309;
+            --bg: #f8fafc;
+        }
+        body { 
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; 
+            background: var(--bg); 
+            color: #1e293b; 
+            margin: 0; 
+            padding: 15px;
+            line-height: 1.5;
+        }
+        
+        header { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 16px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08); 
+            border-bottom: 6px solid var(--primary-blue); 
+            margin-bottom: 20px; 
+        }
+        header h1 { margin: 0; font-size: 22px; color: var(--primary-blue); letter-spacing: -0.5px; }
+        header p { margin: 8px 0 0; font-size: 14px; color: #64748b; font-weight: 500; }
+
+        .mobile-card {
+            background: white;
+            padding: 16px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #e2e8f0;
+        }
+        .card-header { font-size: 12px; font-weight: 800; text-transform: uppercase; color: #94a3b8; margin-bottom: 12px; display: block; }
+        
+        .data-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f1f5f9; }
+        .data-row:last-child { border-bottom: none; }
+        .method-name { font-size: 14px; font-weight: 600; color: #334155; }
+        .method-value { font-size: 15px; font-weight: 800; text-align: right; }
+
+        /* Fix for Chart Container */
+        .chart-section { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 16px; 
+            margin-bottom: 20px; 
+            height: 320px; 
+            width: calc(100% - 30px); /* Adjusts for padding */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            position: relative;
+        }
+
+        .critical-points { background: #fffbeb; padding: 20px; border-radius: 16px; border: 1px solid #f59e0b; margin-bottom: 20px; }
+        .critical-points h2 { color: #b45309; margin-top: 0; font-size: 18px; display: flex; align-items: center; gap: 8px; }
+        .point-box { margin-bottom: 18px; }
+        .point-box h3 { color: var(--primary-blue); font-size: 15px; margin-bottom: 6px; }
+        .point-box p { margin: 0; font-size: 14px; color: #4b5563; }
+        .highlight { font-weight: bold; color: #000; }
+
+        .loan-footer { background: #1e293b; color: #f1f5f9; padding: 20px; border-radius: 16px; }
+        .loan-footer h3 { margin-top: 0; font-size: 16px; color: #38bdf8; }
+        .loan-item { font-size: 13px; margin-bottom: 12px; border-left: 3px solid #334155; padding-left: 12px; }
+
+        .btn-action {
+            background: var(--primary-blue);
+            color: white;
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-weight: bold;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        @media print { .no-print { display: none; } }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Estrategia Somilleda Pro</h1>
+        <p>Plan Integral de 3 Pilares | <strong>$700/mes</strong></p>
+    </header>
+
+    <div class="mobile-card">
+        <span class="card-header">Proyección Final (Año 20)</span>
+        <div class="data-row">
+            <span class="method-name">Banca Infinita</span>
+            <span class="method-value" style="color:var(--primary-blue)">$163,822*</span>
+        </div>
+        <div class="data-row">
+            <span class="method-name">Bonos Muni (CA)</span>
+            <span class="method-value" style="color:#059669">$241,100</span>
+        </div>
+        <div class="data-row">
+            <span class="method-name">Ahorros Tradic.</span>
+            <span class="method-value" style="color:var(--primary-slate)">$185,600</span>
+        </div>
+        <p style="font-size: 10px; color: #94a3b8; margin: 10px 0 0;">*IBC incluye adicionalmente $355k de Seguro de Vida.</p>
+    </div>
+
+    <div class="chart-section">
+        <canvas id="mainChart"></canvas>
+    </div>
+
+    <div class="critical-points">
+        <h2>Análisis de Estrategia</h2>
+        <div class="point-box">
+            <h3>1. Crecimiento vs. Protección</h3>
+            <p><span class="highlight">Banca Infinita:</span> Garantiza <span class="highlight">$355,251</span> de protección familiar.<br>
+            <span class="highlight">Bonos Municipales:</span> Rinde un <span class="highlight">5% equivalente</span> libre de impuestos.</p>
+        </div>
+        <div class="point-box">
+            <h3>2. Función de Préstamo</h3>
+            <p>En <span class="highlight">IBC</span>, el dinero sigue ganando interés compuesto mientras lo usas.</p>
+        </div>
+    </div>
+
+    <div class="loan-footer">
+        <h3>Capacidad de Préstamo</h3>
+        <div class="loan-item"><strong>IBC:</strong> Hasta 95%. Sin requisitos de crédito.</div>
+        <div class="loan-item"><strong>BONOS:</strong> Riesgo de mercado si las tasas suben.</div>
+    </div>
+
+    <button class="btn-action no-print" onclick="window.print()">Generar Reporte PDF</button>
+
+    <footer style="padding: 20px; text-align: center; font-size: 11px; color: #94a3b8;">
+        © 2026 Análisis Estratégico Somilleda.
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const ctx = document.getElementById('mainChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['0', '5', '10', '15', '20'],
+                    datasets: [
+                        { 
+                            label: 'IBC', 
+                            data: [0, 30001, 68631, 115000, 163822], 
+                            borderColor: '#1e3a8a', 
+                            backgroundColor: '#1e3a8a',
+                            borderWidth: 3,
+                            tension: 0.4
+                        },
+                        { 
+                            label: 'Bonos', 
+                            data: [0, 45846, 100283, 164912, 241100], 
+                            borderColor: '#10b981', 
+                            backgroundColor: '#10b981',
+                            borderWidth: 3,
+                            tension: 0.4
+                        },
+                        { 
+                            label: 'Ahorro', 
+                            data: [0, 42000, 88450, 135000, 185600], 
+                            borderColor: '#94a3b8', 
+                            borderDash: [5, 5],
+                            borderWidth: 2,
+                            tension: 0.4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: (v) => '$' + v/1000 + 'k' } }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
