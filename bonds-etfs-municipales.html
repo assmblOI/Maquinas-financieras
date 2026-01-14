@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Estrategia de Bonos Municipales (Actualizado) - Juan C. Somilleda Sanchez</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* --- CORE VARIABLES --- */
+        :root {
+            --primary: #064e3b; /* Verde Bosque */
+            --secondary: #0ea5e9; /* Azul Brillante */
+            --bg: #f8fafc;
+            --text: #1e293b;
+            --danger: #e11d48;
+            --success: #10b981;
+            --note-bg: #fffbeb; 
+            --note-text: #92400e;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -1px rgb(0 0 0 / 0.06);
+        }
+
+        /* --- GLOBAL RESET --- */
+        * { box-sizing: border-box; } /* Prevents padding from breaking layout width */
+
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 15px; /* Reduced padding for mobile screens */
+            margin: 0 auto; 
+            max-width: 1000px; 
+            width: 100%;
+        }
+
+        /* --- HEADER STYLES --- */
+        .header { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: var(--shadow); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+            border-top: 8px solid var(--primary); 
+            flex-wrap: wrap; /* Allows wrapping on phones */
+        }
+
+        .header h1 { 
+            margin: 0; 
+            color: var(--primary); 
+            font-size: 22px; 
+            line-height: 1.2; 
+        }
+
+        .header .subtitle { 
+            color: #64748b; 
+            font-size: 14px; 
+            margin-top: 6px; 
+            line-height: 1.4;
+        }
+
+        .header-meta {
+            text-align: right;
+        }
+
+        .badge { 
+            background: var(--primary); 
+            color: white; 
+            padding: 6px 12px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 11px; 
+            letter-spacing: 0.5px; 
+            display: inline-block;
+        }
+
+        /* --- REFERENCE NOTES (Yellow Boxes) --- */
+        .reference-note {
+            background-color: var(--note-bg);
+            border-left: 4px solid #f59e0b;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            line-height: 1.5;
+            color: var(--note-text);
+            box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+        }
+        .reference-note strong { color: #b45309; }
+
+        /* --- KPI CARD GRID --- */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 15px; 
+            margin-bottom: 25px; 
+        }
+
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: var(--shadow); 
+            text-align: center; 
+            border: 1px solid #e2e8f0; 
+        }
+
+        .card h3 { 
+            margin-top: 0; 
+            color: #64748b; 
+            font-size: 12px; 
+            text-transform: uppercase; 
+            letter-spacing: 1px; 
+        }
+
+        .card .value { 
+            font-size: 26px; 
+            font-weight: 800; 
+            color: var(--primary); 
+            margin: 10px 0; 
+        }
+
+        .card .sub { 
+            font-size: 13px; 
+            color: #64748b; 
+            font-weight: 500; 
+        }
+
+        .tax-tag { 
+            display: inline-block; 
+            background: #dcfce7; 
+            color: #166534; 
+            padding: 4px 10px; 
+            border-radius: 99px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            margin-top: 8px; 
+        }
+
+        /* --- CHART SECTION --- */
+        .chart-container { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 15px; 
+            box-shadow: var(--shadow); 
+            margin-bottom: 25px; 
+            height: 350px; 
+            position: relative;
+        }
+
+        /* --- MARGIN LOAN SECTION --- */
+        .margin-loan { 
+            background: #f1f5f9; 
+            padding: 20px; 
+            border-radius: 15px; 
+            border-left: 6px solid var(--secondary); 
+            box-shadow: var(--shadow);
+        }
+
+        .loan-grid { 
+            display: grid; 
+            grid-template-columns: 1.5fr 1fr; 
+            gap: 20px; 
+            margin-top: 15px; 
+        }
+
+        .stat-box { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px; 
+            border: 1px solid #cbd5e1; 
+        }
+
+        .btn-action { 
+            background: var(--secondary); 
+            color: white; 
+            border: none; 
+            padding: 12px 20px; 
+            border-radius: 8px; 
+            cursor: pointer; 
+            font-weight: 700; 
+            transition: all 0.2s; 
+            font-size: 14px;
+        }
+        
+        .btn-action:hover { background: #0284c7; }
+        .btn-action:active { transform: scale(0.98); }
+
+        .loan-header-flex {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: flex-start;
+        }
+
+        /* --- MOBILE MEDIA QUERY (Max-width 768px) --- */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                align-items: flex-start;
+                text-align: left;
+            }
+            
+            .header-meta {
+                width: 100%;
+                text-align: left;
+                margin-top: 15px;
+                padding-top: 15px;
+                border-top: 1px solid #e2e8f0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            /* Stack the 3 KPI cards vertically */
+            .grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .card {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                text-align: left;
+                padding: 15px;
+            }
+            
+            /* Reorganize card content for horizontal card layout */
+            .card > div:first-child { order: 1; width: 100%; margin-bottom: 5px; } /* Title */
+            .card .value { order: 2; font-size: 22px; margin: 0; }
+            .card .card-right { order: 3; text-align: right; }
+
+            .chart-container {
+                height: 300px; /* Shorter chart for mobile */
+                padding: 10px;
+            }
+
+            /* Stack Loan Section */
+            .loan-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .loan-header-flex {
+                flex-direction: column;
+            }
+
+            .btn-action {
+                width: 100%;
+                margin-top: 15px;
+                padding: 14px;
+                font-size: 16px; /* Larger font for easier reading */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div>
+            <h1>Bonos Municipales de California</h1>
+            <div class="subtitle">Inversionista: <strong>Juan C. Somilleda Sanchez</strong></div>
+            <div class="subtitle">Estrategia: <strong>Doble Exención Fiscal + Liquidez</strong></div>
+        </div>
+        <div class="header-meta">
+            <div class="badge">MÉTODO 2: MERCADO DE VALORES</div>
+            <div style="font-weight:800; color: var(--primary); font-size: 16px;">$700 / Mes</div>
+        </div>
+    </div>
+
+    <div class="reference-note">
+        <strong>⚡ Nota Clave: Crecimiento Inmediato.</strong><br>
+        A diferencia del seguro, aquí no hay costos iniciales ocultos. Sus $8,400 ahorrados ya valen <strong>$8,536</strong> el primer año.
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <div style="flex:1">
+                <h3>3 Años (Corto)</h3>
+                <div class="value">$26,558</div>
+            </div>
+            <div class="card-right" style="flex:1; display:flex; flex-direction:column; align-items:flex-end;">
+                <div class="tax-tag">0% Impuestos</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="flex:1">
+                <h3>10 Años (Medio)</h3>
+                <div class="value">$100,283</div>
+            </div>
+            <div class="card-right" style="flex:1; display:flex; flex-direction:column; align-items:flex-end;">
+                <div class="tax-tag">Rendimiento: 5.0%</div>
+            </div>
+        </div>
+        <div class="card">
+            <div style="flex:1">
+                <h3>20 Años (Largo)</h3>
+                <div class="value">$241,100</div>
+            </div>
+            <div class="card-right" style="flex:1; display:flex; flex-direction:column; align-items:flex-end;">
+                <div class="tax-tag">Ahorro Masivo</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="reference-note">
+        <strong>🛡️ El "Escudo" de California.</strong><br>
+        La barra verde (Bonos) crece más rápido porque no paga impuestos. La barra gris pierde casi <strong>$46,000</strong> en impuestos durante 20 años.
+    </div>
+
+    <div class="chart-container">
+        <canvas id="muniChart"></canvas>
+    </div>
+
+    <div class="margin-loan">
+        <h2 style="margin-top:0; color: var(--primary); font-size: 20px;">Acceso a Liquidez (Margen)</h2>
+        
+        <div class="reference-note" style="margin-bottom: 20px; background: white; border-color: var(--secondary); color: #334155;">
+            <strong>🏦 Sin Banco Requerido.</strong><br>
+            Acceda a efectivo instantáneo sin verificaciones de crédito. Solo necesita $2,000 en la cuenta.
+        </div>
+
+        <div class="loan-grid">
+            <div class="stat-box">
+                <div class="loan-header-flex">
+                    <div>
+                        <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Capacidad de Préstamo (Año 5)</strong>
+                        <div id="loanPower" style="font-size: 32px; font-weight: 800; color: var(--secondary); margin-top:5px;">$22,923</div>
+                        <small style="color: #94a3b8;">(50% del valor de la cuenta)</small>
+                    </div>
+                    <button class="btn-action no-print" onclick="simularPrestamo()">👉 Simular Préstamo $5k</button>
+                </div>
+                <div id="loanMessage" style="margin-top: 15px; font-size: 13px; line-height: 1.5; color: #334155; border-top: 1px solid #eee; padding-top: 10px;">
+                    Su saldo actual le permite activar una línea de crédito inmediata sin vender sus bonos.
+                </div>
+            </div>
+            
+            <div class="stat-box" style="background: #f8fafc;">
+                <strong style="color: #64748b; font-size: 12px; text-transform: uppercase;">Ventaja Fiscal Real</strong>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span style="font-size: 13px;">Impuesto Federal:</span>
+                        <span style="font-weight: bold; color: var(--success);">$0</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 13px;">Impuesto CA:</span>
+                        <span style="font-weight: bold; color: var(--success);">$0</span>
+                    </div>
+                    <div style="border-top: 1px solid #cbd5e1; padding-top: 10px; font-size: 12px; line-height: 1.4; color: #64748b;">
+                        Crecimiento 100% eficiente sin "fugas" fiscales.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 25px; font-size: 11px; color: #94a3b8; text-align: center; line-height: 1.6; padding-bottom: 20px;">
+        Nota: Proyecciones basadas en una tasa de interés libre de impuestos del 3.5% anual. <br>
+        El uso de margen conlleva riesgos de mercado. No es una garantía de rendimiento futuro.
+    </div>
+
+    <script>
+        const ctx = document.getElementById('muniChart').getContext('2d');
+        
+        // Responsive chart font sizing
+        const getFontSize = () => window.innerWidth < 768 ? 10 : 12;
+
+        const labels = ['Año 1', 'Año 3', 'Año 5', 'Año 10', 'Año 15', 'Año 20'];
+        const dataMuni = [8536, 26558, 45846, 100283, 164912, 241100];
+        const dataBanco = [8480, 26030, 44250, 93600, 148500, 210200]; 
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Bonos (Libre de Impuestos)',
+                        data: dataMuni,
+                        backgroundColor: '#10b981',
+                        borderRadius: 4,
+                    },
+                    {
+                        label: 'Banco (Gravable)',
+                        data: dataBanco,
+                        backgroundColor: '#94a3b8',
+                        borderRadius: 4,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: { boxWidth: 10, padding: 15, font: { size: 11 } }
+                    },
+                    title: { 
+                        display: true, 
+                        text: 'Crecimiento: Bonos vs Banco', 
+                        font: { size: 16 } 
+                    },
+                    tooltip: { 
+                        mode: 'index', 
+                        intersect: false,
+                        backgroundColor: 'rgba(6, 78, 59, 0.9)'
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: { font: { size: 10 } }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        ticks: { 
+                            // Compact numbers for mobile axes (e.g., $100k)
+                            callback: (v) => '$' + (v/1000) + 'k',
+                            font: { size: 10 }
+                        }
+                    }
+                }
+            }
+        });
+
+        function simularPrestamo() {
+            const msg = document.getElementById('loanMessage');
+            const btn = document.querySelector('.btn-action');
+            
+            // Update UI to show success state
+            msg.innerHTML = `
+                <div style="background: #dcfce7; padding: 10px; border-radius: 6px; margin-top: 10px;">
+                    <div style="color: var(--success); font-weight: bold; margin-bottom:5px;">✅ ¡Efectivo Disponible!</div>
+                    <ul style="margin: 0; padding-left: 20px; font-size: 12px; color: #166534;">
+                        <li><strong>$5,000</strong> transferidos a su banco.</li>
+                        <li><strong>$45,846</strong> siguen ganando intereses.</li>
+                        <li>No hubo venta de bonos.</li>
+                    </ul>
+                </div>
+            `;
+            
+            document.getElementById('loanPower').innerText = '$17,923';
+            btn.innerText = "Simulación Completa";
+            btn.style.backgroundColor = "#94a3b8"; 
+            btn.disabled = true;
+        }
+    </script>
+</body>
+</html>
+
