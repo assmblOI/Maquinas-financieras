@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte J.C. s - Final</title>
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 10px; background-color: #f4f7f6; color: #333; }
+        .container { max-width: 600px; margin: 0 auto; background: white; padding: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { font-size: 1.4rem; text-align: center; color: #2c3e50; }
+        .chart-box { text-align: center; margin: 15px 0; background: #fff; padding: 10px; border: 1px solid #eee; border-radius: 8px; }
+        img { width: 100%; height: auto; }
+        .table-scroll { width: 100%; overflow-x: auto; margin-top: 20px; border: 1px solid #ddd; }
+        table { width: 100%; border-collapse: collapse; min-width: 450px; font-size: 0.85rem; }
+        th, td { padding: 12px 8px; text-align: right; border-bottom: 1px solid #eee; }
+        th { background-color: #2c3e50; color: white; }
+        .note { font-size: 0.85rem; background: #fffde7; padding: 15px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #fbc02d; }
+        
+        /* Legend Styles */
+        .legend-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 10px; font-size: 0.75rem; }
+        .legend-item { display: flex; align-items: center; gap: 5px; }
+        .line { width: 20px; height: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Proyección para J.C. s</h1>
+        
+        <div class="legend-container">
+            <div class="legend-item"><div class="line" style="background: #2c3e50;"></div> <strong>Póliza J.C.</strong></div>
+            <div class="legend-item"><div class="line" style="border-top: 2px dashed #e67e22;"></div> Ahorros 1%</div>
+            <div class="legend-item"><div class="line" style="border-top: 2px dashed #27ae60;"></div> Bonos 5%</div>
+            <div class="legend-item"><div class="line" style="border-top: 2px dotted gray;"></div> Total Pagado</div>
+        </div>
+
+        <div class="chart-box">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZmIi8+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTAsIDIwMCkiPgogICAgPCEtLSBHcmlkIC0tPgogICAgPGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMzMwIiB5Mj0iMCIgc3Ryb2tlPSIjYmNjN2QyIi8+CiAgICA8bGluZSB4MT0iMCIgeTE9IjAiIHgyPSIwIiB5Mj0iLTE4MCIgc3Ryb2tlPSIjYmNjN2QyIi8+CiAgICAKICAgIDwhLS0gVG90YWwgUGFnYWRvIChEb3R0ZWQgR3JheSkgLS0+CiAgICA8cGF0aCBkPSJNIDAgMCBMIDIwMCAtMTYyIiBzdHJva2U9ImdyYXkiIHN0cm9rZS1kYXNoYXJyYXk9IjIsMiIgZmlsbD0ibm9uZSIvPgogICAgCiAgICA8IS0tIEFob3Jyb3MgMSUgKE9yYW5nZSBEYXNoZWQpIC0tPgogICAgPHBhdGggZD0iTSAwIDAgTCAyMDAgLTE3OCIgc3Ryb2tlPSIjZTY3ZTIyIiBzdHJva2UtZGFzaGFycmF5PSI1LDUiIGZpbGw9Im5vbmUiLz4KICAgIAogICAgPCEtLSBCb25vcyA1JSAoR3JlZW4gRGFzaGVkKSAtLT4KICAgIDxwYXRoIGQ9Ik0gMCAwIEwgMjAwIC0yNjciIHN0cm9rZT0iIzI3YWU2MCIgc3Ryb2tlLWRhc2hhcnJheT0iOCw0IiBmaWxsPSJub25lIi8+CiAgICAKICAgIDwhLS0gUMOzbGl6YSAoQm9sZCBCbHVlKSAtLT4KICAgIDxwYXRoIGQ9Ik0gMCAtMTYgTCA1MCAtMzAgTCAxMDAgLTY4IEwgMTUwIC0xMDYgTCAyMDAgLTE2NCIgc3Ryb2tlPSIjMmMzZTUwIiBzdHJva2Utd2lkdGg9IjMiIGZpbGw9Im5vbmUiLz4KICAgIDxjaXJjbGUgY3g9IjIwMCIgY3k9Ii0xNjQiIHI9IjMiIGZpbGw9IiMyYzNlNTAiLz4KICAgIAogICAgPCEtLSBBeGlzIExhYmVscyAtLT4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtc2l6ZT0iMTAiPjIwIEHDsW9zIChQdW50byBkZSBFcXVpbGlicmlvKTwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Gráfico de Proyección con Leyenda">
+        </div>
+
+        <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>Total Pagado</th>
+                  <th>Póliza J.C. s</th>
+                  <th>Ahorros 1%</th>
+                  <th>Bonos 5%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>3</td><td>$25,200</td><td>$16,382</td><td>$25,453</td><td>$26,481</td></tr>
+                <tr><td>5</td><td>$42,000</td><td>$30,001</td><td>$42,848</td><td>$46,415</td></tr>
+                <tr><td>10</td><td>$84,000</td><td>$68,631</td><td>$87,882</td><td>$105,653</td></tr>
+                <tr><td>15</td><td>$126,000</td><td>$106,034</td><td>$135,223</td><td>$181,257</td></tr>
+                <tr><td>20</td><td>$168,000</td><td>$163,822</td><td>$184,989</td><td>$277,751</td></tr>
+              </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <strong>Análisis Visual:</strong> Observe que la línea azul oscura (Póliza) comienza por debajo del costo, pero se encuentra con la línea punteada gris (Total Pagado) justo en el <strong>Año 20</strong>.
+        </div>
+    </div>
+</body>
+</html>
+
