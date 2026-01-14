@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reporte Móvil J.C. s</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+            margin: 0; 
+            padding: 10px; 
+            background-color: #f4f7f6; 
+            color: #333; 
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 15px; 
+            border-radius: 10px; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+        }
+        h1 { font-size: 1.4rem; text-align: center; color: #2c3e50; margin-bottom: 5px; }
+        .chart-box { text-align: center; margin: 15px 0; }
+        img { width: 100%; height: auto; border-radius: 5px; display: block; }
+        
+        .table-scroll {
+            width: 100%;
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            min-width: 450px;
+            font-size: 0.85rem;
+        }
+        th, td { padding: 12px 8px; text-align: right; border-bottom: 1px solid #eee; }
+        th { background-color: #2c3e50; color: white; font-weight: 600; }
+        tr:nth-child(even) { background-color: #fcfcfc; }
+        
+        .note { 
+            font-size: 0.85rem; 
+            background: #e8f4f1; 
+            padding: 15px; 
+            border-radius: 5px; 
+            margin-top: 20px; 
+            line-height: 1.5;
+            border-left: 4px solid #27ae60;
+        }
+        h3 { color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Proyección para J.C. s</h1>
+        
+        <div class="chart-box">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgMjUwIj4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmZmIi8+CiAgPGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNTAsIDIwMCkiPgogICAgPCEtLSBBeGVzIC0tPgogICAgPGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMzMwIiB5Mj0iMCIgc3Ryb2tlPSIjYmNjN2QyIiBzdHJva2Utd2lkdGg9IjEiLz4KICAgIDxsaW5lIHgxPSIwIiB5MT0iMCIgeDI9IjAiIHkyPSItMTgwIiBzdHJva2U9IiNiY2M3ZDIiIHN0cm9rZS13aWR0aD0iMSIvPgogICAgCiAgICA8IS0tIENvc3RvIFRvdGFsIChEb3R0ZWQpIC0tPgogICAgPHBhdGggZD0iTSAwIDAgTCA1MCAtMjcgTCAxMDAgLTU0IEwgMTUwIC0xMDggTCAyMDAgLTE2MiIgc3Ryb2tlPSIjYmJiIiBmaWxsPSJub25lIiBzdHJva2UtZGFzaGFycmF5PSIyIi8+CiAgICAKICAgIDwhLS0gUG9saXphIChCb2xkIExpbmUpIC0tPgogICAgPHBhdGggZD0iTSAwIC0xNiBMIDUwIC0zMCBMIDEwMCAtNjggTCAxNTAgLTEwNiBMIDIwMCAtMTY0IiBzdHJva2U9IiMyYzNlNTAiIGZpbGw9Im5vbmUiIHN0cm9rZS13aWR0aD0iMyIvPgogICAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iLTY4IiByPSIzIiBmaWxsPSIjMmMzZTUwIi8+CiAgICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSItMTY0IiByPSIzIiBmaWxsPSIjMmMzZTUwIi8+CiAgICAKICAgIDwhLS0gQm9ub3MgNSUgLS0+CiAgICA8cGF0aCBkPSJNIDAgLTI2IEwgNTAgLTQ2IEwgMTAwIC0xMDUgTCAxNTAgLTE4MSBMIDIwMCAtMjc3IiBzdHJva2U9IiMyN2FlNjAiIGZpbGw9Im5vbmUiIHN0cm9rZS1kYXNoYXJyYXk9IjUsNSIvPgogICAgCiAgICA8dGV4dCB4PSIxMDAiIHk9IjIwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjNjY2IiBmb250LXNpemU9IjEwIj4xMCBBw7FvczwvdGV4dD4KICAgIDx0ZXh0IHg9IjIwMCIgeT0iMjAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZpbGw9IiM2NjYiIGZvbnQtc2l6ZT0iMTAiPjIwIEHDsW9zPC90ZXh0PgogICAgPHRleHQgeD0iLTM1IiB5PSItMTYwIiBmaWxsPSIjNjY2IiBmb250LXNpemU9IjEwIj4kMTYwSzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Gráfico de Proyección">
+        </div>
+
+        <h3>Tabla de Datos</h3>
+        <p style="font-size: 0.75rem; color: #888; margin-top: -10px;">(Valores expresados en USD)</p>
+        
+        <div class="table-scroll">
+            <table>
+              <thead>
+                <tr>
+                  <th>Año</th>
+                  <th>Total Pagado</th>
+                  <th>Póliza J.C. s</th>
+                  <th>Ahorros 1%</th>
+                  <th>Bonos 5%</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>3</td><td>$25,200</td><td>$16,382</td><td>$25,453</td><td>$26,481</td></tr>
+                <tr><td>5</td><td>$42,000</td><td>$30,001</td><td>$42,848</td><td>$46,415</td></tr>
+                <tr><td>10</td><td>$84,000</td><td>$68,631</td><td>$87,882</td><td>$105,653</td></tr>
+                <tr><td>15</td><td>$126,000</td><td>$106,034</td><td>$135,223</td><td>$181,257</td></tr>
+                <tr><td>20</td><td>$168,000</td><td>$163,822</td><td>$184,989</td><td>$277,751</td></tr>
+              </tbody>
+            </table>
+        </div>
+
+        <div class="note">
+            <strong>Resumen de Eficiencia:</strong> La póliza alcanza su punto de equilibrio óptimo tras el año 10. A partir de este momento, el crecimiento supera significativamente la inversión total realizada.
+        </div>
+    </div>
+</body>
+</html>
+
