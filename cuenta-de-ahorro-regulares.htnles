@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#1e3a8a"> <title>Ahorros Tradicionales - Mobile View</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #1e3a8a; 
+            --primary-light: #eff6ff;
+            --secondary: #64748b;
+            --bg: #f8fafc; /* Lighter background for mobile contrast */
+            --text: #0f172a;
+            --danger: #ef4444;
+            --success: #22c55e;
+            --note-bg: #fffbeb;
+            --note-border: #f59e0b;
+            --note-text: #92400e;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background: var(--bg); 
+            color: var(--text); 
+            padding: 15px; 
+            margin: 0; 
+            line-height: 1.5;
+        }
+
+        /* --- Mobile Header --- */
+        .header { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 16px; 
+            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); 
+            display: flex; 
+            flex-direction: column; /* Stack vertically on mobile */
+            gap: 15px;
+            margin-bottom: 20px; 
+            border-top: 6px solid var(--primary); 
+        }
+
+        .header-top {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 15px;
+        }
+
+        .header h1 { 
+            margin: 0 0 5px 0; 
+            color: var(--primary); 
+            font-size: 22px; /* Slightly smaller for mobile fitting */
+            font-weight: 800;
+        }
+
+        .header .subtitle { 
+            color: #64748b; 
+            font-size: 13px; 
+            margin-top: 4px; 
+        }
+
+        .header-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-light);
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .badge { 
+            background: var(--primary); 
+            color: white; 
+            padding: 4px 10px; 
+            border-radius: 6px; 
+            font-weight: 700; 
+            font-size: 11px; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* --- Cards Grid (Vertical Stack) --- */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr; /* Force 1 column on mobile */
+            gap: 15px; 
+            margin-bottom: 20px; 
+        }
+
+        .card { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 16px; 
+            text-align: center; 
+            border: 1px solid #e2e8f0; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card h3 { 
+            margin: 0; 
+            color: #64748b; 
+            font-size: 12px; 
+            font-weight: 700;
+            text-transform: uppercase; 
+            letter-spacing: 1px;
+        }
+
+        .card .value { 
+            font-size: 32px; /* Larger numbers for mobile readability */
+            font-weight: 800; 
+            color: var(--primary); 
+            margin: 10px 0; 
+        }
+
+        /* --- Notes --- */
+        .reference-note {
+            background-color: var(--note-bg);
+            border-left: 4px solid var(--note-border);
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--note-text);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        /* --- Chart --- */
+        .chart-container { 
+            background: white; 
+            padding: 15px; 
+            border-radius: 16px; 
+            margin-bottom: 20px; 
+            height: 300px; /* Fixed height for consistency */
+            border: 1px solid #e2e8f0; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+        
+        /* --- Simulation Tool --- */
+        .credit-tool { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 16px; 
+            border: 1px solid #cbd5e1; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+        }
+
+        .tool-grid { 
+            display: flex; 
+            flex-direction: column; /* Stack tools vertically */
+            gap: 20px; 
+        }
+
+        .status-pill { 
+            display: inline-block; 
+            padding: 4px 12px; 
+            border-radius: 9999px; 
+            font-size: 11px; 
+            font-weight: 700; 
+            margin-top: 8px; 
+        }
+        
+        .btn-sim { 
+            background: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 15px 20px; /* Larger touch area */
+            border-radius: 10px; 
+            cursor: pointer; 
+            font-weight: 600; 
+            font-size: 15px;
+            width: 100%; /* Full width button */
+            box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.3);
+            transition: transform 0.1s;
+        }
+
+        .btn-sim:active {
+            transform: scale(0.98);
+        }
+
+        .analysis-box {
+            background: #f1f5f9; 
+            padding: 15px; 
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .footer-note {
+            margin-top: 30px; 
+            font-size: 11px; 
+            color: #94a3b8; 
+            text-align: center;
+            padding-bottom: 20px; /* Space for scroll */
+        }
+
+        /* Specific text spacing for mobile reading */
+        p, li {
+            margin-bottom: 8px;
+        }
+        
+        /* Desktop override (if viewed on larger screens) */
+        @media (min-width: 768px) {
+            body { max-width: 800px; margin: 0 auto; padding: 40px; }
+            .grid { grid-template-columns: repeat(3, 1fr); }
+            .tool-grid { display: grid; grid-template-columns: 1fr 1fr; }
+            .header { flex-direction: row; align-items: center; }
+            .header-top { border-bottom: none; padding-bottom: 0; }
+            .header-stats { background: transparent; display: block; text-align: right; padding: 0; }
+            .btn-sim { width: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="header-top">
+            <h1>Ahorros Tradicionales</h1>
+            <div class="subtitle">Titular: <strong>Juan C. Somilleda Sanchez</strong></div>
+            <div class="subtitle">Uso: <strong>Fondo de Emergencia</strong></div>
+        </div>
+        <div class="header-stats">
+            <div class="badge">MÉTODO 3</div>
+            <div style="font-weight:800; color: var(--primary); font-size: 18px;">$700 / Mes</div>
+        </div>
+    </div>
+
+    <div class="reference-note">
+        <div style="display:flex; align-items:center; margin-bottom:5px;">
+            <span style="font-size:18px; margin-right:8px;">📉</span>
+            <strong>Crecimiento Lento</strong>
+        </div>
+        Este método es "seguro" pero ineficiente. La inflación y los impuestos reducen su poder adquisitivo real cada año.
+    </div>
+
+    <div class="grid">
+        <div class="card">
+            <h3>Proyección 3 Años</h3>
+            <div class="value">$25,580</div>
+            <div class="status-pill" style="background: #dcfce7; color: #166534;">Liquidez Inmediata</div>
+        </div>
+        <div class="card">
+            <h3>Proyección 10 Años</h3>
+            <div class="value">$88,450</div>
+            <div class="status-pill" style="background: #fee2e2; color: #991b1b;">Alto Impacto Fiscal</div>
+        </div>
+        <div class="card">
+            <h3>Proyección 20 Años</h3>
+            <div class="value">$185,600</div>
+            <div class="sub" style="font-size: 11px;">Interés Compuesto Simple</div>
+        </div>
+    </div>
+
+    <div class="reference-note" style="border-left-color: #3b82f6; background-color: #eff6ff; color: #1e3a8a;">
+        <div style="display:flex; align-items:center; margin-bottom:5px;">
+            <span style="font-size:18px; margin-right:8px;">🏦</span>
+            <strong>Estrategia de Crédito</strong>
+        </div>
+        Use este saldo como <strong>colateral</strong>. Pida un préstamo contra sus propios ahorros para construir historial crediticio sin riesgo.
+    </div>
+
+    <div class="chart-container">
+        <canvas id="savingsChart"></canvas>
+    </div>
+
+    <div class="credit-tool">
+        <h2 style="margin-top:0; color: var(--primary); font-size: 18px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; margin-bottom: 15px;">Simulador de Crédito</h2>
+        
+        <div class="tool-grid">
+            <div>
+                <strong style="font-size: 12px; color: #64748b; text-transform: uppercase; display:block; margin-bottom:8px;">Acción</strong>
+                <p style="font-size: 14px; margin: 0 0 15px 0;">Solicitar préstamo de <strong>$5,000</strong> usando saldo como garantía.</p>
+                
+                <button class="btn-sim" onclick="activarSim()">👇 Simular Préstamo</button>
+                
+                <div id="simOutput" style="margin-top: 15px; font-size: 13px; line-height: 1.5; background: #fff; padding: 10px; border-radius: 8px; border: 1px dashed var(--primary); display: none;"></div>
+            </div>
+
+            <div class="analysis-box">
+                <strong style="font-size: 12px; color: #64748b; text-transform: uppercase;">Análisis de Rendimiento</strong>
+                <ul style="font-size: 13px; padding-left: 20px; margin-top: 10px; margin-bottom: 0;">
+                    <li>Interés ganado: <span style="float:right">1.5%</span></li>
+                    <li>Impuestos (Est.): <span style="float:right">-0.45%</span></li>
+                    <li>Inflación (Est.): <span style="float:right">-3.00%</span></li>
+                    <li style="margin-top: 8px; padding-top:8px; border-top: 1px solid #cbd5e1; font-weight: bold; color: var(--danger);">
+                        Rendimiento Real: <span style="float:right">-1.95%</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-note">
+        Valores proyectados con interés APY del 1.5%.<br>
+        Tasa impositiva marginal estimada del 30%.
+    </div>
+
+    <script>
+        // Adjust chart font size for mobile
+        Chart.defaults.font.size = 11;
+        Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto';
+
+        const ctx = document.getElementById('savingsChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['1a', '5a', '10a', '15a', '20a'], // Abbreviated labels for mobile
+                datasets: [{
+                    label: 'Saldo Banco',
+                    data: [8460, 43200, 88450, 135600, 185600],
+                    borderColor: '#1e3a8a',
+                    backgroundColor: 'rgba(30, 58, 138, 0.1)',
+                    fill: true,
+                    pointRadius: 4, // Larger points for touch visibility
+                    tension: 0.1
+                },
+                {
+                    label: 'Valor Real',
+                    data: [8200, 37500, 68000, 95000, 120000],
+                    borderColor: '#94a3b8',
+                    borderDash: [5, 5],
+                    fill: false,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom', // Move legend to bottom for vertical screen
+                        labels: { boxWidth: 10, padding: 15 }
+                    },
+                    title: { display: true, text: 'Saldo vs. Valor Real', padding: {bottom: 15} }
+                },
+                scales: {
+                    y: { 
+                        ticks: { 
+                            callback: (v) => '$' + (v/1000) + 'k' // Shorten numbers ($80,000 -> $80k)
+                        } 
+                    }
+                }
+            }
+        });
+
+        function activarSim() {
+            const out = document.getElementById('simOutput');
+            out.style.display = 'block';
+            out.innerHTML = `
+                <div style="color: var(--primary); font-weight: 800; margin-bottom: 5px;">✅ Simulación Activa</div>
+                <ul style="padding-left: 15px; margin: 0;">
+                    <li><strong>$5,000</strong> de su saldo congelados.</li>
+                    <li>Recibe <strong>$5,000</strong> líquidos.</li>
+                    <li style="margin-top:5px; color: var(--success);"><strong>Pro:</strong> Mejora puntaje crediticio.</li>
+                    <li style="color: var(--danger);"><strong>Contra:</strong> El dinero deja de crecer.</li>
+                </ul>
+            `;
+            // Scroll to the result
+            out.scrollIntoView({behavior: "smooth", block: "nearest"});
+        }
+    </script>
+</body>
+</html>
+
