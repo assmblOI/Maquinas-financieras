@@ -7,232 +7,114 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --primary: #003366; /* Azul Profundo */
-            --secondary: #D4AF37; /* Dorado */
-            --bg: #f4f7f6;
-            --text: #333;
-            --danger: #b91c1c;
-            --success: #15803d;
-            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --primary: #003366; 
+            --secondary: #D4AF37; 
+            --bg: #1a1a1a; /* Dark background as seen in your screenshot */
+            --card-bg: #242424;
+            --text-light: #ffffff;
+            --text-dim: #a0a0a0;
+            --danger: #ff4d4d;
+            --success: #4ade80;
+            --card-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
 
-        * {
-            box-sizing: border-box; /* Ensures padding doesn't break widths */
-        }
+        * { box-sizing: border-box; }
 
         body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg); 
-            color: var(--text); 
-            padding: 15px; /* Reduced padding for mobile */
+            color: var(--text-light); 
+            padding: 10px;
             margin: 0;
             width: 100%;
         }
 
-        .container {
-            max-width: 1000px; 
-            margin: 0 auto; 
-        }
+        .container { max-width: 500px; margin: 0 auto; }
 
-        /* --- HEADER STYLES --- */
+        /* --- HEADER --- */
         .header { 
-            background: white; 
+            background: var(--card-bg); 
             padding: 20px; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             box-shadow: var(--card-shadow); 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+            text-align: center;
             margin-bottom: 20px; 
-            border-left: 8px solid var(--primary); 
-            flex-wrap: wrap; /* Allows wrapping on small screens */
+            border-top: 4px solid var(--primary);
         }
 
-        .header h1 { 
-            margin: 0; 
-            color: var(--primary); 
-            font-size: 22px; 
-            line-height: 1.2;
-        }
-
-        .header .subtitle { 
-            color: #666; 
-            font-size: 14px; 
-            margin-top: 8px; 
-            line-height: 1.4;
-        }
-
-        .header-meta {
-            text-align: right;
-        }
+        .header h1 { margin: 0; font-size: 20px; color: var(--text-light); }
+        .subtitle { color: var(--text-dim); font-size: 14px; margin-top: 8px; }
 
         .badge { 
             background: var(--secondary); 
-            color: white; 
-            padding: 6px 12px; 
+            color: #000; 
+            padding: 5px 15px; 
             border-radius: 20px; 
             font-weight: bold; 
             font-size: 11px; 
             display: inline-block;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            margin-top: 15px;
         }
 
-        /* --- CARD GRID STYLES --- */
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 15px; 
-            margin-bottom: 20px; 
-        }
-
+        /* --- CARDS --- */
         .card { 
-            background: white; 
+            background: var(--card-bg); 
             padding: 20px; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             box-shadow: var(--card-shadow); 
             text-align: center; 
-            transition: transform 0.2s;
+            margin-bottom: 15px;
+            border: 1px solid #333;
         }
 
-        .card h3 { 
-            margin-top: 0; 
-            color: #888; 
-            font-size: 13px; 
-            text-transform: uppercase; 
-            letter-spacing: 1px;
-        }
+        .card h3 { margin: 0; color: var(--text-dim); font-size: 12px; text-transform: uppercase; }
+        .card .value { font-size: 28px; font-weight: bold; color: var(--text-light); margin: 10px 0; }
+        .card .sub { font-size: 13px; color: var(--text-dim); }
 
-        .card .value { 
-            font-size: 26px; 
-            font-weight: 800; 
-            color: var(--primary); 
-            margin: 10px 0; 
-        }
+        .card.highlight { border: 1px solid var(--secondary); }
 
-        .card .sub { 
-            font-size: 13px; 
-            color: #666; 
-        }
-
-        .card.highlight { 
-            border: 2px solid var(--secondary); 
-            background: #fffdf5; /* Slight tint to make it pop */
-        }
-
-        /* --- CHART STYLES --- */
+        /* --- CHART --- */
         .chart-container { 
-            background: white; 
+            background: var(--card-bg); 
             padding: 15px; 
-            border-radius: 12px; 
-            box-shadow: var(--card-shadow); 
+            border-radius: 15px; 
             margin-bottom: 20px; 
-            height: 350px; 
-            position: relative;
+            height: 300px; 
         }
 
-        /* --- SIMULATOR STYLES --- */
+        /* --- SIMULATOR --- */
         .loan-simulator { 
-            background: white; 
-            border-top: 4px solid var(--secondary); 
+            background: var(--card-bg); 
             padding: 20px; 
-            border-radius: 12px; 
+            border-radius: 15px; 
             margin-top: 20px; 
-            box-shadow: var(--card-shadow);
-        }
-
-        .loan-controls { 
-            display: flex; 
-            gap: 20px; 
-            align-items: center; 
-            margin-bottom: 20px; 
+            border: 1px solid #333;
         }
 
         .btn { 
             background: var(--primary); 
             color: white; 
             border: none; 
-            padding: 12px 24px; 
-            border-radius: 8px; 
+            padding: 15px; 
+            border-radius: 10px; 
             cursor: pointer; 
             font-weight: bold; 
-            font-size: 15px;
-            transition: background 0.2s;
-            -webkit-tap-highlight-color: transparent; /* Removes blue highlight on mobile tap */
+            width: 100%;
+            margin: 15px 0;
         }
 
-        .btn:active { transform: scale(0.98); }
-
-        .loan-output { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 20px; 
-            background: #f8fafc; 
-            padding: 20px; 
-            border-radius: 8px; 
-            border: 1px solid #e2e8f0;
+        .output-box {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 10px;
         }
 
         .footer {
-            margin-top: 30px; 
-            padding-bottom: 20px;
-            font-size: 11px; 
-            color: #888; 
+            font-size: 10px; 
+            color: #666; 
             text-align: center; 
-            line-height: 1.5;
-        }
-
-        /* --- MOBILE MEDIA QUERY (tablets and phones) --- */
-        @media (max-width: 768px) {
-            body { padding: 10px; }
-            
-            .header { 
-                flex-direction: column; 
-                text-align: center; 
-                padding: 15px;
-            }
-            
-            .header > div { width: 100%; }
-            
-            .header-meta {
-                text-align: center;
-                margin-top: 15px;
-                padding-top: 15px;
-                border-top: 1px solid #eee;
-            }
-
-            .header h1 { font-size: 20px; }
-
-            /* Turn grid into a vertical stack */
-            .grid { 
-                grid-template-columns: 1fr; 
-            }
-
-            .card {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                padding: 15px;
-            }
-
-            .chart-container {
-                height: 300px; /* Slightly shorter for mobile scroll */
-                padding: 10px;
-            }
-
-            .loan-controls {
-                flex-direction: column;
-            }
-
-            .btn {
-                width: 100%; /* Full width button for easy thumb tapping */
-                padding: 15px;
-            }
-
-            .loan-output {
-                grid-template-columns: 1fr; /* Stack output details */
-                gap: 15px;
-            }
+            padding: 20px;
         }
     </style>
 </head>
@@ -240,36 +122,32 @@
     <div class="container">
         
         <div class="header">
-            <div>
-                <h1>Estrategia de Banca Infinita</h1>
-                [span_0](start_span)<div class="subtitle">Cliente: <strong>Juan C. Somilleda Sanchez (63)</strong>[span_0](end_span)</div>
-                [span_1](start_span)<div class="subtitle" style="font-size:12px;">Mutual Trust Horizon Value (Pay to 90)</div>[span_1](end_span)
-            </div>
-            <div class="header-meta">
-                <div class="badge">Método 1: Seguro de Vida</div>
-                <div style="margin-top:5px; font-weight:bold; font-size: 18px; color: var(--primary);">$700 / Mes</div>
-            </div>
+            <h1>Estrategia de Banca Infinita</h1>
+            <div class="subtitle">Cliente: <strong>Juan C. Somilleda Sanchez (63)</strong></div>
+            <div class="subtitle" style="font-size:12px;">Mutual Trust Horizon Value (Pay to 90)</div>
+            <div class="badge">MÉTODO 1: SEGURO DE VIDA</div>
+            <div style="margin-top:10px; font-weight:bold; font-size: 22px; color: #fff;">$700 / Mes</div>
         </div>
 
-        <div class="grid">
-            <div class="card">
-                <h3>Corto Plazo (Año 3)</h3>
-                <div class="value">$16,382</div>
-                [span_2](start_span)<div class="sub">Efectivo Disponible</div>[span_2](end_span)
-                [span_3](start_span)<div style="color: var(--danger); font-size: 12px; margin-top:5px; font-weight: 600;">⚠️ Zona de Capitalización</div>[span_3](end_span)
-            </div>
-            <div class="card highlight">
-                <h3>Mediano Plazo (Año 10)</h3>
-                <div class="value">$68,631</div>
-                [span_4](start_span)<div class="sub">Efectivo Disponible</div>[span_4](end_span)
-                [span_5](start_span)<div style="color: var(--success); font-size: 12px; margin-top:5px; font-weight: 600;">✅ Punto de Equilibrio Superado</div>[span_5](end_span)
-            </div>
-            <div class="card">
-                <h3>Largo Plazo (Año 20)</h3>
-                <div class="value">$163,822*</div>
-                [span_6](start_span)<div class="sub">Efectivo Disponible</div>[span_6](end_span)
-                <div style="color: #666; font-size: 12px; margin-top:5px;">*Proyección c/ Rider de Término</div>
-            </div>
+        <div class="card">
+            <h3>Corto Plazo (Año 3)</h3>
+            <div class="value">$16,382</div>
+            <div class="sub">Efectivo Disponible</div>
+            <div style="color: #ff9800; font-size: 12px; margin-top:5px; font-weight: bold;">⚠️ Zona de Capitalización</div>
+        </div>
+
+        <div class="card highlight">
+            <h3>Mediano Plazo (Año 10)</h3>
+            <div class="value">$68,631</div>
+            <div class="sub">Efectivo Disponible</div>
+            <div style="color: var(--success); font-size: 12px; margin-top:5px; font-weight: bold;">✅ Punto de Equilibrio Superado</div>
+        </div>
+
+        <div class="card">
+            <h3>Largo Plazo (Año 20)</h3>
+            <div class="value">$163,822*</div>
+            <div class="sub">Efectivo Disponible</div>
+            <div style="color: var(--text-dim); font-size: 11px; margin-top:5px;">*Proyección c/ Rider de Término</div>
         </div>
 
         <div class="chart-container">
@@ -277,31 +155,26 @@
         </div>
 
         <div class="loan-simulator">
-            <h2 style="margin-top:0; color:var(--primary); font-size: 18px;">Simulador de Préstamos</h2>
-            <p style="font-size:14px; color:#555; line-height: 1.5;">
-                Demostración de liquidez en el <strong>Año 10</strong>. Vea cómo su dinero sigue creciendo (interés compuesto) incluso mientras lo usa.
-            </p>
+            <h2 style="margin:0; color:var(--text-light); font-size: 18px;">Simulador de Préstamos</h2>
+            <p style="font-size:13px; color:var(--text-dim);">Demostración de liquidez en el Año 10.</p>
             
-            <div class="loan-controls no-print">
-                <button class="btn" onclick="toggleLoan()">👉 Tocar para Solicitar $10,000</button>
-            </div>
+            <button class="btn" onclick="toggleLoan()">👉 Tocar para Solicitar $10,000</button>
 
-            <div class="loan-output">
-                <div>
-                    <strong>Valor en Efectivo (Año 10):</strong>
-                    <div style="font-size: 22px; color: var(--primary); font-weight:bold;">$68,631</div>
-                    <small style="color: #666;">Permanece invertido al 100%</small>
+            <div class="output-box">
+                <div style="margin-bottom:15px;">
+                    <small style="color:var(--text-dim)">Valor en Efectivo (Año 10):</small>
+                    <div style="font-size: 22px; font-weight:bold;">$68,631</div>
                 </div>
                 
-                <div>
-                    <strong>Beneficio por Muerte:</strong>
+                <div style="margin-bottom:15px;">
+                    <small style="color:var(--text-dim)">Beneficio por Muerte:</small>
                     <div id="deathBenefitDisplay" style="font-size: 22px; color: var(--success); font-weight:bold;">$355,251</div>
-                    [span_7](start_span)<small id="dbNote" style="color: #666;">Beneficio Completo</small>[span_7](end_span)
+                    <small id="dbNote" style="color: var(--text-dim);">Beneficio Completo</small>
                 </div>
 
-                <div style="grid-column: 1 / -1; border-top: 1px solid #ddd; padding-top: 15px; margin-top: 5px;">
-                    <strong>Estado de Cuenta:</strong> <span id="loanStatusText" style="color: var(--success); font-weight: bold;">Sin Préstamos</span>
-                    <p id="loanExplanation" style="font-size: 13px; color: #555; line-height: 1.4; margin-bottom: 0;">
+                <div style="border-top: 1px solid #444; padding-top: 10px;">
+                    <strong>Estado:</strong> <span id="loanStatusText" style="color: var(--success);">Sin Préstamos</span>
+                    <p id="loanExplanation" style="font-size: 12px; color: var(--text-dim); margin-top:5px;">
                         Su dinero está seguro y creciendo. Usted tiene acceso total a su capital sin preguntas bancarias.
                     </p>
                 </div>
@@ -309,23 +182,20 @@
         </div>
 
         <div class="footer">
-            Fuente de Datos: Documento PDF Mtl (2). Los valores son Ilustrados/No Garantizados. <br>
-            *[span_8](start_span)Las cifras del Año 20 asumen la continuación del Rider de Término[span_8](end_span). <br>
-            Dividendos no garantizados. Tasa de préstamo asumida al 5%.
+            Fuente de Datos: Documento PDF Mtl (2). Valores Ilustrados No Garantizados.<br>
+            Las cifras del Año 20 asumen la continuación del Rider de Término.<br>
+            Tasa de préstamo asumida al 5%.
         </div>
 
-    </div> <script>
-        // Chart Configuration
-        const ctx = document.getElementById('growthChart').getContext('2d');
-        
-        // Responsive Font Size for Chart
-        const getFontSize = () => window.innerWidth < 768 ? 10 : 12;
+    </div> 
 
+    <script>
+        const ctx = document.getElementById('growthChart').getContext('2d');
         const years = [1, 2, 3, 5, 10, 20];
         const premiums = [8400, 16800, 25200, 42000, 84000, 193398]; 
         const cashValues = [4604, 10011, 16382, 30001, 68631, 163822]; 
 
-        const chart = new Chart(ctx, {
+        new Chart(ctx, {
             type: 'line',
             data: {
                 labels: years.map(y => 'Año ' + y),
@@ -333,18 +203,18 @@
                     {
                         label: 'Costo Acumulado',
                         data: premiums,
-                        borderColor: '#b91c1c', 
+                        borderColor: '#ff4d4d', 
                         borderDash: [5, 5],
-                        backgroundColor: 'transparent',
                         borderWidth: 2,
-                        pointRadius: 3,
+                        pointRadius: 0,
+                        fill: false,
                         tension: 0.3
                     },
                     {
                         label: 'Efectivo Disponible',
                         data: cashValues,
-                        borderColor: '#15803d', 
-                        backgroundColor: 'rgba(21, 128, 61, 0.1)',
+                        borderColor: '#4ade80', 
+                        backgroundColor: 'rgba(74, 222, 128, 0.1)',
                         borderWidth: 3,
                         pointRadius: 4,
                         fill: true,
@@ -356,42 +226,17 @@
                 responsive: true,
                 maintainAspectRatio: false,
                 plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: { boxWidth: 12, padding: 15 }
-                    },
-                    title: {
-                        display: true,
-                        text: 'Crecimiento de Capital vs Costo',
-                        font: { size: 16 }
-                    },
-                    tooltip: {
-                        mode: 'index',
-                        intersect: false,
-                        padding: 10,
-                        backgroundColor: 'rgba(0,51,102, 0.9)'
-                    }
+                    legend: { labels: { color: '#fff', font: { size: 10 } } },
+                    title: { display: true, text: 'Crecimiento vs Costo', color: '#fff' }
                 },
                 scales: {
-                    x: {
-                        ticks: { font: { size: 11 } }
-                    },
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) { return '$' + value/1000 + 'k'; }, // Shorten numbers for mobile
-                            font: { size: 11 }
-                        }
-                    }
+                    x: { grid: { display: false }, ticks: { color: '#888' } },
+                    y: { grid: { color: '#333' }, ticks: { color: '#888', callback: v => '$' + v/1000 + 'k' } }
                 }
             }
         });
 
-        // Loan Logic
         let loanActive = false;
-        const originalDB = 355251; 
-        const loanAmount = 10000;
-
         function toggleLoan() {
             loanActive = !loanActive;
             const btn = document.querySelector('.btn');
@@ -401,39 +246,25 @@
             const dbNote = document.getElementById('dbNote');
 
             if (loanActive) {
-                // Active State
-                btn.innerHTML = "🔄 Restaurar Póliza (Pagar Préstamo)";
-                btn.style.backgroundColor = "#D4AF37"; // Gold color
-                
-                const netDB = originalDB - loanAmount;
-                dbDisplay.innerText = '$' + netDB.toLocaleString();
+                btn.innerHTML = "🔄 Pagar Préstamo (Simulado)";
+                btn.style.backgroundColor = "#D4AF37";
+                dbDisplay.innerText = '$345,251';
                 dbDisplay.style.color = '#D4AF37'; 
                 dbNote.innerText = 'Reducido por colateral';
-                
                 statusText.innerText = 'Préstamo Activo: $10,000';
-                statusText.style.color = '#b91c1c';
-                
-                explanation.innerHTML = `
-                    ✅ <strong>$10,000 en su bolsillo.</strong><br>
-                    ✅ <strong>$68,631 siguen ganando intereses.</strong><br>
-                    [span_9](start_span)ℹ️ El seguro de vida actúa como colateral. Si usted fallece hoy, el préstamo se paga del beneficio de muerte.[span_9](end_span)
-                `;
+                statusText.style.color = '#ff4d4d';
+                explanation.innerHTML = '✅ $10,000 liquidados. <br>✅ $68,631 siguen ganando intereses.';
             } else {
-                // Reset State
                 btn.innerHTML = "👉 Tocar para Solicitar $10,000";
-                btn.style.backgroundColor = "#003366"; // Blue color
-                
-                dbDisplay.innerText = '$' + originalDB.toLocaleString();
-                dbDisplay.style.color = '#15803d';
+                btn.style.backgroundColor = "#003366";
+                dbDisplay.innerText = '$355,251';
+                dbDisplay.style.color = '#4ade80';
                 dbNote.innerText = 'Beneficio Completo';
-                
                 statusText.innerText = 'Sin Préstamos';
-                statusText.style.color = '#15803d';
-                
-                explanation.innerHTML = 'Su dinero está seguro y creciendo. Usted tiene acceso total a su capital sin preguntas bancarias.';
+                statusText.style.color = '#4ade80';
+                explanation.innerHTML = 'Su dinero está seguro y creciendo.';
             }
         }
     </script>
 </body>
 </html>
-
