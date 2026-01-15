@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Análisis de Estrategia - J.C.</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root {
+            --primary: #003366; 
+            --secondary: #D4AF37; 
+            --muni: #27ae60; 
+            --bg: #121212;
+            --card-bg: #1e1e1e;
+            --text-light: #ffffff;
+            --text-dim: #b0b0b0;
+        }
+
+        body { 
+            font-family: -apple-system, system-ui, sans-serif; 
+            background: var(--bg); color: var(--text-light); 
+            margin: 0; padding: 10px; 
+        }
+
+        .container { max-width: 500px; margin: 0 auto; }
+
+        .header { 
+            background: var(--card-bg); padding: 20px; border-radius: 15px; 
+            text-align: center; border-bottom: 4px solid var(--secondary); margin-bottom: 20px;
+        }
+
+        h1 { font-size: 1.1rem; margin: 0; color: var(--secondary); text-transform: uppercase; }
+        .subtitle { font-size: 0.9rem; color: var(--text-dim); margin-top: 5px; }
+
+        .card { 
+            background: var(--card-bg); padding: 15px; border-radius: 12px; 
+            margin-bottom: 15px; border: 1px solid #333;
+        }
+        .card-title { font-size: 0.7rem; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1px; }
+        .card-value { font-size: 1.7rem; font-weight: bold; margin: 5px 0; }
+
+        .muni-card { border-left: 5px solid var(--muni); }
+        .ibc-card { border-left: 5px solid var(--primary); }
+
+        .chart-box { 
+            background: var(--card-bg); padding: 15px; border-radius: 12px; 
+            height: 320px; margin-bottom: 20px; 
+        }
+
+        .table-container { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.75rem; margin-top: 10px; }
+        th { background: #2a2a2a; color: var(--text-dim); padding: 8px; text-align: left; }
+        td { padding: 8px; border-bottom: 1px solid #333; }
+
+        .note { 
+            background: #2a261a; border-left: 4px solid var(--secondary); 
+            padding: 15px; font-size: 0.8rem; border-radius: 8px; line-height: 1.4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Estrategia de Capital e Inversión</h1>
+            <div class="subtitle">Análisis Preparado para: <strong>J.C.</strong></div>
+        </div>
+
+        <div class="card muni-card">
+            <div class="card-title">Bonos Municipales (Año 20)</div>
+            <div class="card-value" style="color: var(--muni);">$241,100</div>
+            <div class="subtitle">Máximo Crecimiento Líquido</div>
+        </div>
+
+        <div class="card ibc-card">
+            <div class="card-title">Banca Infinita (Año 20)</div>
+            <div class="card-value" style="color: #4a90e2;">$163,822</div>
+            <div class="subtitle">Efectivo + Patrimonio Total ($518k+)</div>
+        </div>
+
+        <div class="chart-box">
+            <canvas id="strategyChart"></canvas>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Comparativa de Préstamos (Año 10)</div>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Concepto</th>
+                            <th>Bonos</th>
+                            <th>Banca Infinita</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Capacidad Préstamo</td>
+                            <td>~50% Valor Mkt</td>
+                            <td>~95% Valor Efectivo</td>
+                        </tr>
+                        <tr>
+                            <td>Crecimiento en Préstamo</td>
+                            <td>SÍ (Variable)</td>
+                            <td>SÍ (Compuesto Garantizado)</td>
+                        </tr>
+                        <tr>
+                            <td>Riesgo de Liquidación</td>
+                            <td>Riesgo de Mercado</td>
+                            <td>Ninguno (Contractual)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="note">
+            <strong>Resumen Estratégico para J.C.:</strong> 
+            Los Bonos Municipales ofrecen la mayor liquidez libre de impuestos en el corto plazo. La Banca Infinita (IBC) optimiza el uso del dinero mediante préstamos que no detienen el interés compuesto, garantizando además un legado familiar superior.
+        </div>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('strategyChart').getContext('2d');
+        
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['0', 'Año 5', 'Año 10', 'Año 15', 'Año 20'],
+                datasets: [
+                    {
+                        label: 'Bonos Municipales',
+                        data: [0, 45846, 105653, 181257, 241100],
+                        borderColor: '#27ae60',
+                        backgroundColor: 'rgba(39, 174, 96, 0.1)',
+                        borderWidth: 3,
+                        fill: true,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Banca Infinita',
+                        data: [0, 30001, 68631, 106034, 163822],
+                        borderColor: '#4a90e2',
+                        borderWidth: 3,
+                        fill: false,
+                        tension: 0.3
+                    },
+                    {
+                        label: 'Ahorro 1%',
+                        data: [0, 42848, 87882, 135223, 184989],
+                        borderColor: '#888',
+                        borderDash: [5, 5],
+                        borderWidth: 2,
+                        fill: false
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { labels: { color: '#fff', font: { size: 10 } } },
+                    title: { display: true, text: 'Crecimiento de Capital vs Tiempo', color: '#fff' }
+                },
+                scales: {
+                    y: { 
+                        grid: { color: '#333' },
+                        ticks: { color: '#aaa', callback: (v) => '$' + v/1000 + 'k' }
+                    },
+                    x: { grid: { display: false }, ticks: { color: '#aaa' } }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
+
